@@ -81,7 +81,8 @@ app.listen(port, () => {
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
+const multer = require('multer');
 
 const app = express();
 const port = 3000;
@@ -90,7 +91,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Route สำหรับรับรูปภาพจาก Unity
+/*// Route สำหรับรับรูปภาพจาก Unity
 app.post('/upload_image', (req, res) => {
   const imageBase64 = req.body.image; // รับรูปภาพจาก body ของ request
   const imageName = 'uploaded_image.png';
@@ -108,6 +109,28 @@ app.post('/upload_image', (req, res) => {
       res.send('บันทึกรูปภาพเรียบร้อยแล้ว');
     }
   });
+});*/
+
+// ตั้งค่าการเก็บไฟล์ภาพ
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/') // กำหนดโฟลเดอร์ที่เก็บรูปภาพ
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // ใช้ชื่อเดียวกับชื่อเดิมของไฟล์
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// สร้างเส้นทางสำหรับรับรูปภาพ
+app.post('/upload', upload.single('image'), (req, res) => {
+  // ตรวจสอบว่ามีรูปภาพที่อัปโหลดมาหรือไม่
+  if (!req.file) {
+    return res.status(400).json({ message: 'No image uploaded' });
+  }
+
+  res.json({ message: 'Upload successful' });
 });
 
 // เริ่มต้นเซิร์ฟเวอร์

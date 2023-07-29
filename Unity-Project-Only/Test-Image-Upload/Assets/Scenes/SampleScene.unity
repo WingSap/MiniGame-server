@@ -581,7 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429214f97e9ec2047934464db3ee236c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverURL: http://10.57.180.24:3000/upload_image/
+  serverURL: http://10.57.180.24:3000/upload/
 --- !u!4 &1279810336
 Transform:
   m_ObjectHideFlags: 0
