@@ -1,34 +1,35 @@
 using UnityEngine;
 using System.Collections;
 using System.IO;
+using UnityEngine.Networking;
 
 public class ImageUploader : MonoBehaviour
 {
-    public string serverURL = "http://your-nodejs-server.com/upload"; // URL ของเซิร์ฟเวอร์ Node.js
+    public string serverURL = "http://your-server-url/upload_image";
 
-    public void UploadImage(Texture2D image)
+    public void UploadImage(Texture2D imageTexture)
     {
-        byte[] imageData = image.EncodeToPNG(); // แปลงภาพเป็น Binary Data (PNG)
-
-        StartCoroutine(SendImageToServer(imageData));
+        StartCoroutine(SendImageToServer(imageTexture));
     }
 
-    private IEnumerator SendImageToServer(byte[] data)
+    private IEnumerator SendImageToServer(Texture2D imageTexture)
     {
+        byte[] imageBytes = imageTexture.EncodeToPNG();
+        string imageBase64 = System.Convert.ToBase64String(imageBytes);
+
         WWWForm form = new WWWForm();
-        form.AddBinaryData("image", data, "screenshot.png", "image/png"); // "image" คือชื่อตัวแปรที่ต้องการส่งไปยังเซิร์ฟเวอร์
+        form.AddField("image", imageBase64);
 
-        WWW www = new WWW(serverURL, form);
+        UnityWebRequest request = UnityWebRequest.Post(serverURL, form);
+        yield return request.SendWebRequest();
 
-        yield return www;
-
-        if (www.error != null)
+        if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError("Error uploading image: " + www.error);
+            Debug.LogError("Error sending image: " + request.error);
         }
         else
         {
-            Debug.Log("Image uploaded successfully!");
+            Debug.Log("Image sent successfully!");
         }
     }
 }
