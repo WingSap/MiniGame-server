@@ -3,14 +3,45 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const multer = require('multer');
 const cors = require('cors');
-
+const fs = require('fs');
 const app = express();
 const port = 3000;
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// อ่าน JSON file
+app.get('/getIp', (req, res) => {
+  fs.readFile('data.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      const jsonData = JSON.parse(data);
+      res.json(jsonData);
+    }
+  });
+});
+
+app.use(express.static("public"));
+
+app.get("/game1", (req, res) => {
+    // ทำสิ่งที่ต้องการกับ API ของ Game 1
+    res.send("You are in Game 1!");
+});
+
+app.get("/game2", (req, res) => {
+    // ทำสิ่งที่ต้องการกับ API ของ Game 2
+    res.send("You are in Game 2!");
+});
+
+app.get("/game3", (req, res) => {
+    // ทำสิ่งที่ต้องการกับ API ของ Game 3
+    res.send("You are in Game 3!");
+});
+
+
 
 // ตั้งค่าการเก็บไฟล์ภาพ
 const storage = multer.diskStorage({
