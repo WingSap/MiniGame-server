@@ -109,25 +109,19 @@
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
           };
+          fetch('IP_Setting.json')
+            .then(response => response.json())
+            .then(data => {
+              // ทำอะไรกับข้อมูล JSON ที่โหลดเข้ามาในเกม
+              // เช่น ตั้งค่าค่าใน Unity จากข้อมูล JSON
+              unityInstance.SendMessage("SpawnerBot", "GetMonster", JSON.stringify(data));
+              unityInstance.SendMessage("Send to Server", "GetData", JSON.stringify(data));
+            })
         }).catch((message) => {
           alert(message);
         });
       };
       document.body.appendChild(script);
-      
-    </script>
-    <script>
-      // โหลด JSON จากไฟล์ data.json
-      fetch('your-json-folder/data.json')
-        .then(response => response.json())
-        .then(data => {
-          // ทำอะไรกับข้อมูล JSON ที่โหลดเข้ามาในเกม
-          // เช่น ตั้งค่าค่าใน Unity จากข้อมูล JSON
-          unityInstance.SendMessage("GameObjectName", "SetGameData", JSON.stringify(data));
-        })
-        .catch(error => {
-          console.error('เกิดข้อผิดพลาดในการโหลด JSON:', error);
-        });
     </script>
   </body>
 </html>

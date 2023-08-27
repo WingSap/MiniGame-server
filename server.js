@@ -11,17 +11,28 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// อ่าน JSON file
-app.get('/getIp', (req, res) => {
-  fs.readFile('data.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      const jsonData = JSON.parse(data);
-      res.json(jsonData);
-    }
-  });
+// อ่านไฟล์ JSON
+const file = 'data.json';
+
+// ใช้ fs.readFile ในการอ่านไฟล์ JSON
+fs.readFile(file, 'utf8', (err, data) => {
+  if (err) {
+    console.error(`เกิดข้อผิดพลาดในการอ่านไฟล์ ${file}:`, err);
+    return;
+  }
+
+  try {
+    // แปลง JSON เป็นอ็อบเจ็กต์ JavaScript
+    const jsonData = JSON.parse(data);
+
+    // สร้าง URL โดยรวม hostname และ port จาก JSON
+    const url = `http://${jsonData.IP}:${jsonData.port}`;
+
+    // แสดง URL ใน console.log
+    console.log('Share Server URL:', url);
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการแปลง JSON:', error);
+  }
 });
 
 app.use(express.static("public"));
@@ -31,7 +42,8 @@ app.get("/game1", (req, res) => {
     res.send("You are in Game 1!");
 });
 
-app.get("/game2", (req, res) => {
+///// ปิดไว้รอเพื่มเกมในอนาคต /////
+/*app.get("/game2", (req, res) => {
     // ทำสิ่งที่ต้องการกับ API ของ Game 2
     res.send("You are in Game 2!");
 });
@@ -39,9 +51,7 @@ app.get("/game2", (req, res) => {
 app.get("/game3", (req, res) => {
     // ทำสิ่งที่ต้องการกับ API ของ Game 3
     res.send("You are in Game 3!");
-});
-
-
+});*/
 
 // ตั้งค่าการเก็บไฟล์ภาพ
 const storage = multer.diskStorage({
