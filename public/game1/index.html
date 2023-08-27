@@ -56,11 +56,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/New folder (9).loader.js";
+      var loaderUrl = buildUrl + "/New folder (2).loader.js";
       var config = {
-        dataUrl: buildUrl + "/New folder (9).data",
-        frameworkUrl: buildUrl + "/New folder (9).framework.js",
-        codeUrl: buildUrl + "/New folder (9).wasm",
+        dataUrl: buildUrl + "/New folder (2).data",
+        frameworkUrl: buildUrl + "/New folder (2).framework.js",
+        codeUrl: buildUrl + "/New folder (2).wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "NewPlaceGodPower",
@@ -89,7 +89,7 @@
         // performance, uncomment the following line:
         // config.devicePixelRatio = 1;
 
-        unityShowBanner('1');
+        unityShowBanner('WebGL builds are not supported on mobile devices.');
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
@@ -109,16 +109,14 @@
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
           };
-          fetch('JsonData/data.json')
+          fetch('IP_Setting.json')
             .then(response => response.json())
             .then(data => {
               // ทำอะไรกับข้อมูล JSON ที่โหลดเข้ามาในเกม
               // เช่น ตั้งค่าค่าใน Unity จากข้อมูล JSON
-              unityInstance.SendMessage("Send to Server", "JsonIP", JSON.stringify(data));
+              unityInstance.SendMessage("SpawnerBot", "GetMonster", JSON.stringify(data));
+              unityInstance.SendMessage("Send to Server", "GetData", JSON.stringify(data));
             })
-            .catch(error => {
-              console.error('เกิดข้อผิดพลาดในการโหลด JSON:', error);
-            });
         }).catch((message) => {
           alert(message);
         });
