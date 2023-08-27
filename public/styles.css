@@ -1,0 +1,22 @@
+body {
+    background-color: rgb(49, 68, 73); /* เปลี่ยนสีพื้นหลังเป็นสีดำ */
+    color: rgb(255, 255, 255); /* เปลี่ยนสีตัวหนังสือเป็นสีขาว */
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+button {
+    padding: 10px 600px; /* ปรับขนาดของปุ่ม */
+    margin: 20px; /* ระยะห่างระหว่างปุ่ม */
+    font-size: 56px; /* ปรับขนาดตัวอักษรของปุ่ม */
+}
+
+h1 {
+    font-size: 76px;
+}
