@@ -1,3 +1,11 @@
+----- Unity Project(GitHub Link) ----
+
+https://github.com/WingSap/Interns-Game
+
+----- Server (GitHub Link) ----
+
+https://github.com/WingSap/MiniGame-server
+
 ----- ติดตั้ง node.js ก่อนเปิดเซิฟ -----
 
 -ถ้าติดตั้งแล้วข้ามขั้นตอนนี้ได้เลย
